@@ -50,11 +50,6 @@ echo ""
 echo "Enter your credentials (press Enter to skip and fill in manually later):"
 echo ""
 
-read -p "OpenAI API key (from platform.openai.com/api-keys): " OPENAI_KEY
-if [ -n "$OPENAI_KEY" ]; then
-  sed -i.bak "s|OPENAI_API_KEY=.*|OPENAI_API_KEY=$OPENAI_KEY|" "$SCRIPT_DIR/.env"
-fi
-
 read -p "Telegram bot token (from @BotFather): " TG_TOKEN
 if [ -n "$TG_TOKEN" ]; then
   sed -i.bak "s|TELEGRAM_BOT_TOKEN=.*|TELEGRAM_BOT_TOKEN=$TG_TOKEN|" "$SCRIPT_DIR/.env"
@@ -104,13 +99,16 @@ for agent in eli brandvoice marcus ezra legal; do
   fi
 done
 
-# ─── Set API Key ──────────────────────────────────────────────────────────────
+# ─── OpenAI Auth (OAuth) ──────────────────────────────────────────────────────
 
-if [ -n "$OPENAI_KEY" ]; then
-  echo ""
-  echo "Setting OpenAI API key in OpenClaw..."
-  openclaw config set providers.openai.apiKey "$OPENAI_KEY" 2>/dev/null || \
-    echo "  (Set it manually via: openclaw config set providers.openai.apiKey YOUR_KEY)"
+echo ""
+echo "OpenClaw uses OAuth for OpenAI authentication."
+echo "The next step will open a browser to log you in to your OpenAI account."
+echo ""
+read -p "Authenticate with OpenAI now? [Y/n] " AUTH_NOW
+if [[ ! "$AUTH_NOW" =~ ^[Nn]$ ]]; then
+  openclaw auth login 2>/dev/null || openclaw onboard 2>/dev/null || \
+    echo "  Run 'openclaw onboard' manually to authenticate."
 fi
 
 # ─── Start Daemon ─────────────────────────────────────────────────────────────
