@@ -1,0 +1,47 @@
+{
+  "agents": {
+    "defaults": {
+      "model": "openai/gpt-4o-mini"
+    },
+    "list": [
+      {
+        "id": "eli",
+        "model": "openai/gpt-4o-mini",
+        "workspace": "~/.openclaw/blta/eli"
+      },
+      {
+        "id": "brandvoice",
+        "model": "openai/gpt-4o",
+        "workspace": "~/.openclaw/blta/brandvoice"
+      },
+      {
+        "id": "marcus",
+        "model": "openai/gpt-4o-mini",
+        "workspace": "~/.openclaw/blta/marcus"
+      },
+      {
+        "id": "ezra",
+        "model": "openai/gpt-4o-mini",
+        "workspace": "~/.openclaw/blta/ezra"
+      },
+      {
+        "id": "legal",
+        "model": "openai/gpt-4o",
+        "workspace": "~/.openclaw/blta/legal"
+      }
+    ]
+  },
+  "channels": {
+    "enabled": ["telegram"],
+    "telegram": {
+      "botToken": ""
+    }
+  },
+  "bindings": [
+    { "agentId": "eli",        "match": { "channel": "telegram", "accountId": "eli" } },
+    { "agentId": "brandvoice", "match": { "channel": "telegram", "accountId": "brandvoice" } },
+    { "agentId": "marcus",     "match": { "channel": "telegram", "accountId": "marcus" } },
+    { "agentId": "ezra",       "match": { "channel": "telegram", "accountId": "ezra" } },
+    { "agentId": "legal",      "match": { "channel": "telegram", "accountId": "legal" } }
+  ]
+}
